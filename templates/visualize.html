@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualization</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2><i class="fas fa-chart-area"></i> Data Visualization</h2>
+            <a href="{{ url_for('analyze', filename=filename) }}" class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Analysis
+            </a>
+        </div>
+
+        <div class="visualization-controls">
+            <form method="POST" class="row g-3">
+                <div class="col-md-3">
+                    <select name="plot_type" class="form-select">
+                        <option value="bar">Bar Chart</option>
+                        <option value="line">Line Graph</option>
+                        <option value="hist">Histogram</option>
+                        <option value="heatmap">Heatmap</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <select name="column_x" class="form-select">
+                        <option value="">X-axis Column</option>
+                        {% for col in columns %}
+                        <option value="{{ col }}">{{ col }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <select name="column_y" class="form-select">
+                        <option value="">Y-axis Column</option>
+                        {% for col in columns %}
+                        <option value="{{ col }}">{{ col }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-1">
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-play"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        {% if plot_url %}
+        <div class="plot-container">
+            <h4>Generated Visualization</h4>
+            <div class="text-center">
+                <img src="{{ plot_url }}" alt="Data Visualization" class="img-fluid" 
+                     style="max-width: 800px; width: 100%">
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
